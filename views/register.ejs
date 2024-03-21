@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Simple Chat App - Register</title>
+
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      #register {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-top: 50px;
+      }
+
+      h2 {
+        margin-top: 50px;
+        color: grey;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        width: 30%;
+      }
+
+      input {
+        margin-bottom: 10px;
+        padding: 10px;
+      }
+
+      button {
+        padding: 10px;
+        background-color: rgb(117, 216, 117);
+        border: none;
+        color: white;
+        font-size: large;
+      }
+
+      #login {
+        margin-top: 10px;
+        text-decoration: none;
+        color: grey;
+      }
+
+    </style>
+  </head>
+  <body>
+
+    <div id="register">
+      <h2>Register as a User</h2>
+
+      <form action="/register" method="POST">
+        <input type="text" name="name" placeholder="name" required>
+        <input type="email" name="email" placeholder="email" required>
+        <input type="password" name="password" placeholder="password" required>
+        <button type="submit">Register</button>
+      </form>
+
+      <a id="login" href="/login">Login</a>
+
+    </div>
+
+  </body>
+</html>
