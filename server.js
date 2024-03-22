@@ -12,7 +12,6 @@ const session = require("express-session");
 const methodOverride = require("method-override");
 const initializePassport = require("./passport-config");
 const passport = require("passport");
-const { join } = require("node:path");
 
 const users = [];
 const app = express();
@@ -42,10 +41,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride("_method"));
-
-// app.get("/", (req, res) => {
-//   res.sendFile(join(__dirname, "index.html"));
-// });
 
 app.get("/", checkAuthenticated, (req, res) => {
   res.render("index.ejs", { user: req.user });
@@ -92,7 +87,6 @@ app.delete("/logout", (req, res, next) => {
   });
 });
 
-// app.listen(3000);
 server.listen(3000, () => {
   console.log("Server started on http://localhost:3000");
 });
