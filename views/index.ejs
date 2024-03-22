@@ -10,19 +10,19 @@
     const socket = io();
 
     socket.on("chat-message", (data) => {
-      appendMessage(`${data.name}: ${data.message}`);
+      appendMessage(`${data.name}: ${data.message}`, false);
     });
 
     socket.on("user-connected", (name) => {
-      appendMessage(`${name} connected`);
+      appendMessage(`${name} connected`, false);
     });
 
     socket.on("user-disconnected", (name) => {
-      appendMessage(`${name} disconnected`);
+      appendMessage(`${name} disconnected`, false);
     });
     
     function init(){
-      appendMessage("You joined");
+      appendMessage("You joined", true);
       const name = '<%- user.name %>';
       socket.emit("new-user", name);
 
@@ -31,17 +31,20 @@
       messageForm.addEventListener("submit", (e) => {
         e.preventDefault();
         const message = messageInput.value;
-        appendMessage(`You: ${message}`);
+        appendMessage(`You: ${message}`, true);
         socket.emit("send-chat-message", message);
         messageInput.value = "";
       });
     }
 
-    function appendMessage(message) {
+    function appendMessage(message, isOwnMessage) {
       const messageContainer = document.getElementById("message-container");
       const messageElement = document.createElement("div");
       messageElement.innerText = message;
+      if (isOwnMessage) messageElement.style = "background-color: rgb(117, 216, 117); color: white; margin-left: auto;";
+      else messageElement.style = "background-color: #d6d6d6; color: black;";
       messageContainer.append(messageElement);
+      messageElement.scrollIntoView();
     }
 
     window.onload = init;
@@ -52,6 +55,37 @@
       margin: 0;
       display: flex;
       justify-content: center;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    #page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      margin-top: 50px;
+    }
+
+    #topbar {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 50%;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    #logout {
+      padding: 5px 15px;
+      width: fit-content;
+      background-color: #333;
+      border: 1px solid #333;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
     }
 
     #chat {
@@ -59,7 +93,6 @@
       flex-direction: column;
       width: 50%;
       height: 80vh;
-      margin-top: 10vh;
       border: 1px solid #CCC;
       box-shadow: 0 0 10px #CCC;
       position: relative;
@@ -73,10 +106,8 @@
       width: fit-content;
       max-width: 90%;
       box-sizing: border-box;
-      display: flex;
       overflow-wrap: break-word;
       text-wrap: wrap;
-      
     }
 
     #message-container {
@@ -84,15 +115,8 @@
       overflow-y: scroll;
       scrollbar-width: none;
       width: 100%;
-    }
-
-    #message-container div:nth-child(odd) {
-      background-color: #d6d6d6;
-      color: black;
-    }
-    #message-container div:nth-child(even) {
-      background-color: #02bc6f;
-      color: white;
+      display: flex;
+      flex-direction: column;
     }
     #send-container {
       background: rgba(0, 0, 0, 0.15);
@@ -117,25 +141,37 @@
       border: none;
       padding: 0 1rem;
       margin: 0.25rem;
-      border-radius: 3px;
+      border-radius: 15px;
       outline: none;
       color: #fff;
     }
+
+
   </style>
 </head>
 <body>
-    <div id="chat">
-        <div id="message-container"></div>
-        <form id="send-container">
-            <input type="text" id="message-input">
-            <button type="submit" id="send-button">Send</button>
-        </form>
+    
+  <div id="page">
+
+    <div id="topbar">
+      <h2>Simple Chat App - Welcome <%- user.name %> </h2>
+      <form action="/logout?_method=DELETE" method="POST">
+        <button type="submit" id="logout">Logout</button>
+      </form>
     </div>
 
+    <div id="chat">
+      <div id="message-container"></div>
+      <form id="send-container">
+          <input type="text" id="message-input">
+          <button type="submit" id="send-button">Send</button>
+      </form>
+    </div>
 
-<form action="/logout?_method=DELETE" method="POST">
-    <button type="submit">Logout</button>
-</form>
+  </div>
+
+
+
 
 </body>
 </html>
