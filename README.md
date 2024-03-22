@@ -1,6 +1,6 @@
 ## Simple Chat App by Jesse Grywacheski
 
-I built this Simple Chat App for practise with websockets, authentication, and css.
+I built this Simple Chat App for practise with websockets, authentication, and user sessions in Node.js.
 
 The Node.js server features *Socket.io Websockets*,  *Passport authentication middleware*, and *Express Session middleware*
 
